@@ -6,7 +6,7 @@
 <title>پیکسل‌ها؛ آجرهای کوچک تصویر</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700;800&display=swap">
 <style>
-:root{color-scheme:light;--bg:#F0DFC0;--bgimg:linear-gradient(180deg,#F7ECD6 0%,#F0DFC0 60%,#E8D2A8 100%);--paper:rgba(255,255,255,.3);--card:#FFFDF8;--ink:#33210F;--mute:#6A5538;--line:#EBD9B8;--frame:#4A2F18;--acc:#C2410C;--accink:#fff;--ok:#12805C;--bad:#C0392B;--gap:2px;
+:root{color-scheme:light;--bg:#FF9A3D;--bgimg:linear-gradient(170deg,#FFB05A 0%,#FF922B 55%,#F97316 100%);--paper:rgba(255,244,224,.74);--card:#FFFDF8;--ink:#33210F;--mute:#6A5538;--line:#EBD9B8;--frame:#4A2F18;--acc:#C2410C;--accink:#fff;--ok:#12805C;--bad:#C0392B;--gap:2px;
 box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 *{box-sizing:border-box}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
@@ -19,7 +19,7 @@ h1{font-size:1.5rem;margin:6px 0 4px;font-weight:800;line-height:1.5}
 button{font:inherit;cursor:pointer;border:2px solid var(--line);background:var(--card);color:var(--ink);border-radius:12px;padding:6px 12px;min-height:44px}
 button:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
 button.on{background:var(--acc);color:var(--accink);border-color:var(--acc);font-weight:700}
-.card{background:#E6D0A6;border:1px solid #CBAE78;border-radius:14px;padding:12px 14px;margin-bottom:12px}
+.card{background:#F6C58A;border:1px solid #D9A05C;border-radius:14px;padding:12px 14px;margin-bottom:12px}
 .card b{font-weight:800}
 #grid{display:grid;grid-template-columns:repeat(var(--n),1fr);gap:var(--gap);width:min(100%,440px);aspect-ratio:1;margin:12px auto;padding:6px;background:var(--frame);border-radius:12px;max-width:100%;touch-action:none;user-select:none;-webkit-user-select:none;direction:ltr}
 #grid.far{--gap:0;padding:0;border-radius:6px;overflow:hidden}
@@ -266,7 +266,7 @@ function music(on){
  b.setAttribute('aria-pressed',on?'true':'false');b.textContent=on?'⏸ توقف موزیک':'🎵 موزیک آرام';b.className='mu'+(on?' on':'');
 }
 (function(){var L=$('lv'),E=['🍂','🍁','🍃','🍂','🍁'];
- for(var i=0;i<16;i++){var sp=document.createElement('span');sp.textContent=E[i%E.length];sp.style.left=(Math.random()*95)+'%';sp.style.fontSize=(24+Math.random()*18)+'px';sp.style.animationDuration=(10+Math.random()*8)+'s';sp.style.animationDelay='-'+(Math.random()*14)+'s';L.appendChild(sp)}
+ for(var i=0;i<16;i++){var sp=document.createElement('span');sp.textContent=E[i%E.length];sp.style.left=(Math.random()*95)+'%';sp.style.fontSize=(24+Math.random()*18)+'px';sp.style.animationDuration=(10+Math.random()*8)+'s';sp.style.animationDelay='-'+(Math.random()*14)+'s';sp.style.filter='hue-rotate('+[0,0,-25,-45,300][i%5]+'deg) drop-shadow(0 2px 3px rgba(90,50,10,.25))';L.appendChild(sp)}
 })();
 $('mu').onclick=function(){music(!TM)};
 document.addEventListener('visibilitychange',function(){if(document.hidden&&TM)music(false)});
