@@ -65,16 +65,20 @@ main>.sub{display:none}
 main>.mu{grid-column:2;grid-row:1;justify-self:end;margin:0}
 main>.tabs{grid-column:1/-1;grid-row:2;max-width:560px;margin:8px 0 10px}
 #c1{grid-column:1;grid-row:3}#c3{grid-column:1;grid-row:4}
-#c2{grid-column:2;grid-row:3/span 2;position:sticky;top:10px;display:grid;grid-template-columns:minmax(0,1fr) 150px;column-gap:12px;align-items:start}
+#c2{grid-column:2;grid-row:3/span 2;position:sticky;top:10px;display:grid;grid-template-columns:minmax(0,1fr) 180px;column-gap:12px;align-items:start}
 #c2 #grid{grid-column:1;grid-row:1/span 3;margin:0 auto}
-#c2 #pal{grid-column:2;grid-row:1;margin:0;gap:6px;justify-content:center}
-#c2 .sw{width:32px;height:32px;border-width:2px;font-size:.7rem}
-#c2 #tools{grid-column:2;grid-row:2;flex-direction:column;align-items:stretch;gap:6px;margin:10px 0 0}
+#c2 #pal{grid-column:2;grid-row:1;margin:0;gap:4px;justify-content:center}
+#c2 .sw{width:26px;height:26px;border-width:2px;font-size:.7rem}
+#c2 #tools{grid-column:2;grid-row:2;display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:10px 0 0}
 #c2 #tools button{min-height:38px;padding:4px 6px;font-size:.9rem}
 #c2 #tools .zoom{font-size:.8rem;gap:2px 6px;flex-wrap:wrap;justify-content:space-between;min-width:0}
 #c2 #tools .zoom input{order:3;flex:1 0 100%;width:100%;min-width:0;margin:0}
 #c2 #status{grid-column:2;grid-row:3;font-size:.85rem;text-align:center;line-height:1.6;margin-top:8px}
 }
+.tabs button{font-size:.88rem;padding:6px 4px}
+.cr{text-align:center;color:var(--mute);font-weight:700;font-size:.95rem;margin-top:18px;padding-top:12px;border-top:1px dashed var(--line)}
+@media (min-width:900px){.cr{grid-column:1/-1;grid-row:5}}
+@media (min-width:900px){#c2 #tools .zoom{grid-column:1/-1}#c2 #tools button{font-size:.85rem}}
 </style>
 </head>
 <body>
@@ -84,7 +88,8 @@ main>.tabs{grid-column:1/-1;grid-row:2;max-width:560px;margin:8px 0 10px}
 <p class="sub">هر عکسی که روی صفحه می‌بینی از مربع‌های رنگیِ ریز ساخته شده. اسم هر مربع «پیکسل» است.</p>
 <button class="mu" id="mu" aria-pressed="false">🎵 موزیک آرام</button>
 <div class="tabs" id="tabs">
-<button data-l="a">اول تا سوم</button>
+<button data-l="a" data-s="1">اول</button>
+<button data-l="a" data-s="2">دوم و سوم</button>
 <button data-l="b">چهارم و پنجم</button>
 <button data-l="c">ششم</button>
 </div>
@@ -118,25 +123,38 @@ main>.tabs{grid-column:1/-1;grid-row:2;max-width:560px;margin:8px 0 10px}
 <p><b>چالش:</b> سفید و سیاه و زرد بساز! (راهنمایی: سفید یعنی هر سه نور روشن. زرد از ترکیب قرمز و سبز ساخته می‌شود.)</p>
 <div id="rgbbox" style="height:70px;border-radius:12px;border:1px solid var(--line)"></div>
 <div id="rgrows"></div>
+<p>می‌خواهی رنگت را در نقاشی استفاده کنی؟ می‌توانی <b>۵ رنگ دلخواه</b> نگه داری. اگر جا نداشتی، یکی از رنگ‌هایت را حذف کن تا رنگ تازه جا بگیرد. دقت کن: هر جای نقاشی که با رنگِ حذف‌شده رنگ شده بود، سفید می‌شود. با ۴ رقم ۰ و ۱ می‌شود ۱۶ کد مختلف نوشت (از ۰۰۰۰ تا ۱۱۱۱). ۱۱ کد برای رنگ‌های آماده استفاده شده و ۵ کد خالی مانده است. رنگ‌های دلخواه تو همین ۵ کد خالی را می‌گیرند (۱۰۱۱ تا ۱۱۱۱).</p>
+<div class="row" id="cuadd"></div>
+<div class="row" id="cusl"></div>
+<p class="msg" id="cumsg" style="text-align:center"></p>
 <p>هر عدد با ۸ رقم ۰ و ۱ نوشته می‌شود. پس یک رنگ واقعی ۳ × ۸ = ۲۴ رقم دودویی دارد. کد چهاررقمی بالا فقط یک نسخه‌ی ساده‌شده بود.</p></details></div>
+<footer class="cr">تهیه شده توسط: آتوسا فرشادپور</footer>
 </main>
 <script>
-var COLORS=[['سفید','#FFFFFF'],['سیاه','#14181F'],['قرمز','#E5383B'],['نارنجی','#F77F00'],['زرد','#FFD60A'],['سبز','#2DC653'],['آبی','#2F80ED'],['بنفش','#8E5BD6'],['صورتی','#FF7EB6'],['قهوه‌ای','#8B5A2B'],['کرم','#F4E4BC']];
+var COLORS=[['سفید','#FFFFFF'],['سیاه','#000000'],['قرمز','#E5383B'],['نارنجی','#F77F00'],['زرد','#FFD60A'],['سبز','#2DC653'],['آبی','#2F80ED'],['بنفش','#8E5BD6'],['صورتی','#FF7EB6'],['قهوه‌ای','#8B5A2B'],['کرم','#F4E4BC'],['رنگ من ۱','#FFFFFF'],['رنگ من ۲','#FFFFFF'],['رنگ من ۳','#FFFFFF'],['رنگ من ۴','#FFFFFF'],['رنگ من ۵','#FFFFFF'],['سبز روشن','#9BE564'],['سبز تیره','#1E7B34'],['آبی آسمانی','#8EC9FF'],['آبی تیره','#1B3FA0'],['نیلی','#3F3B9E'],['طلایی','#D4AF37','linear-gradient(135deg,#FFF1A8,#D4AF37 45%,#9C7A17 70%,#F2D675)'],['نقره‌ای','#C0C6D0','linear-gradient(135deg,#FFFFFF,#C0C6D0 45%,#8A93A3 70%,#E9EDF3)'],['مسی','#B87333','linear-gradient(135deg,#F3C9A0,#B87333 45%,#7A4318 70%,#E2A474)'],['فیروزه‌ای','#1ABC9C','linear-gradient(135deg,#B8FFF0,#1ABC9C 45%,#0B7A65 70%,#6CEBD3)'],['یاقوتی','#D81B60','linear-gradient(135deg,#FFB3CF,#D81B60 45%,#8A0F3C 70%,#F56A9C)']];
+var CU=[0,0,0,0,0];
+function isCol(v){return v<11||(v<16&&!!CU[v-11])}
+function bgc(i){return COLORS[i][2]||COLORS[i][1]}
+function CW(){return S.g.some(function(v){return v>=21})?5:4}
+function bn(v){return ('00000'+(v>=21?v-5:v).toString(2)).slice(-CW())}
+function pidx(){var L=[];for(var i=0;i<16;i++)if(isCol(i))L.push(i);return L}
 var MISSIONS=['یک قلب قرمز بساز.','یک ماهی رنگی بکش.','حرف اول اسمت را با پیکسل بنویس.','یک خانه با سقف رنگی بساز.','یک گل با سه رنگ بساز.','یک قایق رنگی با بادبان بساز.','یک درخت پاییزی با برگ‌های نارنجی و زرد بساز.'];
+var MISS2=['یک تاج طلایی یا یک ستاره‌ی نقره‌ای بساز.','یک برگ پاییزی با دو رنگ سبز بساز.','یک آسمان با آبی روشن و آبی تیره بساز.'];
+function ms(){return S.sub===2?MISSIONS.concat(MISS2):MISSIONS}
 var SMILEY=['00111100','01000010','10100101','10000001','10100101','10011001','01000010','00111100'];
 var BOAT=['00001000','00011000','00111000','01111000','00001000','11111111','01111110','00111100'];
 var TREE=['00011000','00111100','01111110','11111111','01111110','00011000','00011000','00011000'];
 var TARGETS=[SMILEY,BOAT,TREE];
-var S={l:'a',n:8,g:[],cur:2,z:0,bw:false,ch:false,cn:0,mi:0,down:false,res:''};
+var S={l:'a',n:8,g:[],cur:2,z:0,bw:false,ch:false,cn:0,sub:1,sp:false,mi:0,down:false,res:''};
 var $=function(id){return document.getElementById(id)};
 var fa=function(x){return Number(x).toLocaleString('fa-IR')};
 function reset(n){S.n=n;S.g=[];for(var i=0;i<n*n;i++)S.g.push(0);S.res=''}
-function setLevel(l){S.l=l;S.z=0;S.ch=false;S.res='';reset(8);if(l==='a'){S.bw=false;S.cur=2}else{S.bw=true;S.cur=1}render()}
+function setLevel(l,sub){S.l=l;if(l==='a')S.sub=sub||1;S.mi=0;S.sp=false;S.z=0;S.ch=false;S.res='';reset(8);if(l==='a'){S.bw=false;S.cur=2}else{S.bw=true;S.cur=1}render()}
 function btn(txt,cls,fn){var b=document.createElement('button');b.textContent=txt;if(cls)b.className=cls;b.onclick=fn;return b}
 
 function render(){
  S.hover=false;$('rgbcard').hidden=S.l==='a';$('bincard').hidden=S.l!=='c';var tabs=$('tabs').children;
- for(var i=0;i<tabs.length;i++){tabs[i].className=tabs[i].dataset.l===S.l?'on':'';tabs[i].onclick=(function(t){return function(){setLevel(t.dataset.l)}})(tabs[i])}
+ for(var i=0;i<tabs.length;i++){tabs[i].className=(tabs[i].dataset.l===S.l&&(S.l!=='a'||Number(tabs[i].dataset.s)===S.sub))?'on':'';tabs[i].onclick=(function(t){return function(){setLevel(t.dataset.l,Number(t.dataset.s)||0)}})(tabs[i])}
  $('info').innerHTML=S.l==='a'
   ?'<b>پیکسل چیست؟</b> صفحه‌ی نمایش گوشی، تبلت، تلویزیون و کامپیوتر پر از مربع‌های رنگیِ خیلی کوچک است. به هر مربع «پیکسل» می‌گوییم. وقتی هزاران پیکسل کنار هم قرار می‌گیرند، آن‌ها را از دور به شکل یک تصویر کامل می‌بینیم. رنگ بزن و بعد اسلایدر را به سمت «دور» بکش!'
   :'<b>پیکسل یعنی «عنصر تصویر»</b> (Picture Element). کامپیوتر برای هر پیکسل یک عدد دودویی (باینری) ذخیره می‌کند. در تصویر سیاه‌وسفید: عدد ۱ یعنی پیکسل سیاه و عدد ۰ یعنی پیکسل سفید. هرچه پیکسل‌ها بیشتر باشند، تصویر دقیق‌تر است.';
@@ -144,7 +162,7 @@ function render(){
 }
 function renderTask(){
  var t=$('task');
- if(S.l==='a'){t.innerHTML='<b>ماموریت:</b> '+MISSIONS[S.mi]+'<div class="row"></div>';t.lastChild.appendChild(btn('ماموریت بعدی','',function(){S.mi=(S.mi+1)%MISSIONS.length;renderTask()}));return}
+ if(S.l==='a'){t.innerHTML='<b>ماموریت:</b> '+ms()[S.mi%ms().length]+'<div class="row"></div>';t.lastChild.appendChild(btn('ماموریت بعدی','',function(){S.mi=(S.mi+1)%ms().length;renderTask()}));return}
  if(S.ch){
   t.innerHTML='<b>ماموریت رمزگشایی:</b> هر ردیف کد یک ردیف از تصویر است. ۱ را سیاه و ۰ را سفید کن تا تصویر پنهان پیدا شود.<pre id="tc" style="direction:ltr;text-align:left;letter-spacing:.14em;margin:8px 0;font-family:ui-monospace,Menlo,monospace">'+TARGETS[S.cn].join('\n')+'</pre><div class="row" id="trow"></div><div class="msg '+(S.res==='ok'?'ok':'bad')+'" id="tm">'+(S.res==='ok'?'آفرین! تصویر درست رمزگشایی شد.':S.res==='no'?'هنوز چند پیکسل اشتباه است. دوباره با کد مقایسه کن.':'')+'</div>';
   $('trow').appendChild(btn('بررسی','on',checkCh));
@@ -162,10 +180,12 @@ function checkCh(){
 }
 function renderPal(){
  var p=$('pal');p.innerHTML='';
- var list=(S.l!=='a'&&S.bw)?[0,1]:[0,1,2,3,4,5,6,7,8,9,10];
- list.forEach(function(i){
+ var list=(S.l!=='a'&&S.bw)?[0,1]:(S.l==='a'?[0,1,2,3,4,5,6,7,8,9,10]:pidx());
+ var spc=S.l==='a'?(S.sub===2?[-2,16,17,18,19,20,-1,21,22,23,24,25]:[]):((!S.bw)?[-1,21,22,23,24,25]:[]);
+ list.concat(spc).forEach(function(i){
+  if(i<0){var tg=document.createElement('div');tg.textContent=i===-2?'🌿 رنگ‌های بیشتر':'✨ رنگ‌های ویژه';tg.style.cssText='flex:1 0 100%;text-align:center;font-weight:700;font-size:.9rem;margin-top:6px;color:var(--mute)';p.appendChild(tg);return}
   var b=document.createElement('button');b.className='sw'+(S.cur===i?' on':'');
-  b.style.background=COLORS[i][1];b.setAttribute('aria-label',COLORS[i][0]);
+  b.style.background=bgc(i);b.setAttribute('aria-label',COLORS[i][0]);
   b.title=COLORS[i][0];
   if(S.l!=='a'&&S.bw){b.textContent=i;b.style.color=i===0?'#14181F':'#fff'}
   b.onclick=function(){S.cur=i;renderPal()};p.appendChild(b);
@@ -173,7 +193,7 @@ function renderPal(){
 }
 function renderTools(){
  var t=$('tools');t.innerHTML='';
- var sizes=S.l==='a'?[8,12]:[8,16];
+ var sizes=S.l==='a'?(S.sub===2?[8,12,16,20]:[8,12]):(S.l==='b'?[8,16,24]:[8,16,24,32]);
  if(!S.ch)sizes.forEach(function(n){t.appendChild(btn(fa(n)+'×'+fa(n),S.n===n?'on':'',function(){reset(n);render()}))});
  if(S.l==='a'){
   var z=document.createElement('label');z.className='zoom';
@@ -189,7 +209,7 @@ function renderTools(){
 }
 function renderGrid(){
  var g=$('grid');g.style.setProperty('--n',S.n);g.innerHTML='';applyZoom();
- for(var i=0;i<S.n*S.n;i++){var c=document.createElement('i');c.dataset.i=i;c.style.background=COLORS[S.g[i]][1];g.appendChild(c)}
+ for(var i=0;i<S.n*S.n;i++){var c=document.createElement('i');c.dataset.i=i;c.style.background=bgc(S.g[i]);g.appendChild(c)}
 }
 function applyZoom(){
  var g=$('grid'),z=S.l==='a'?S.z:0;
@@ -204,16 +224,18 @@ function update(){
  if(S.l!=='a'&&!S.ch){
   cb.hidden=false;
   var lines=[];
-  for(var y=0;y<n;y++){var row=S.g.slice(y*n,y*n+n);lines.push(S.bw?row.join(''):row.map(function(v){return ('0000'+v.toString(2)).slice(-4)}).join(' '))}
+  for(var y=0;y<n;y++){var row=S.g.slice(y*n,y*n+n);lines.push(S.bw?row.join(''):row.map(bn).join(' '))}
   $('code').textContent=lines.join('\n');
-  $('clbl').textContent=S.bw?'ببین کامپیوتر تصویر تو را چطور با کدهای صفر و یک (باینری) می‌نویسد:':'ببین کامپیوتر رنگ‌های تصویر تو را چطور با کدهای صفر و یک (باینری) می‌نویسد. هر پیکسل چهار رقم دارد:';
+  $('clbl').textContent=S.bw?'ببین کامپیوتر تصویر تو را چطور با کدهای صفر و یک (باینری) می‌نویسد:':'ببین کامپیوتر رنگ‌های تصویر تو را چطور با کدهای صفر و یک (باینری) می‌نویسد. هر پیکسل '+(CW()===5?'پنج':'چهار')+' رقم دارد:'+(CW()===5?' رنگ‌های ویژه کدهای ۱۰۰۰۰ تا ۱۰۱۰۰ دارند و برای نوشتنشان به رقم پنجم نیاز داریم.':'');
   $('code').hidden=!S.bw;var tb=$('tbw');tb.hidden=S.bw;
-  if(!S.bw){
-   var b4=function(v){return ('0000'+v.toString(2)).slice(-4)};
+  if(!S.bw&&n>16){tb.innerHTML='<p class="lbl">برای این اندازه، کد رنگی خیلی بلند می‌شود. برای دیدن کد رنگی، اندازه‌ی ۸ یا ۱۶ را انتخاب کن.</p>'}
+  else if(!S.bw){
+   var b4=bn;
    var tc=function(h){return (parseInt(h.substr(1,2),16)*299+parseInt(h.substr(3,2),16)*587+parseInt(h.substr(5,2),16)*114)/1000>140?'#14181F':'#fff'};
-   var h='<p class="lbl">جدول کد رنگ‌ها</p><table class="ct"><tr>'+COLORS.map(function(c){return '<td style="background:'+c[1]+'">&nbsp;</td>'}).join('')+'</tr><tr>'+COLORS.map(function(c,i){return '<td>'+b4(i)+'</td>'}).join('')+'</tr></table>';
+   var LG=pidx().concat(S.g.some(function(v){return v>=21})?[21,22,23,24,25]:[]);
+   var h='<p class="lbl">جدول کد رنگ‌ها</p><table class="ct"><tr>'+LG.map(function(i){return '<td style="background:'+bgc(i)+'">&nbsp;</td>'}).join('')+'</tr><tr>'+LG.map(function(i){return '<td>'+b4(i)+'</td>'}).join('')+'</tr></table>';
    h+='<p class="lbl">کد تصویر تو (هر خانه یک پیکسل است)</p><table class="ct sm">';
-   for(var y=0;y<n;y++){h+='<tr>';for(var x=0;x<n;x++){var v=S.g[y*n+x],c=COLORS[v][1];h+='<td style="background:'+c+';color:'+tc(c)+'">'+b4(v)+'</td>'}h+='</tr>'}
+   for(var y=0;y<n;y++){h+='<tr>';for(var x=0;x<n;x++){var v=S.g[y*n+x],c=COLORS[v][1];h+='<td style="background:'+bgc(v)+';color:'+tc(c)+'">'+b4(v)+'</td>'}h+='</tr>'}
    tb.innerHTML=h+'</table>';
   }
  }else cb.hidden=true;
@@ -224,7 +246,7 @@ function paintAt(e){
  var i=Number(el.dataset.i),n=S.n;
  S.hover=true;
  if(S.l!=='a')$('status').textContent='پیکسل: ستون '+fa(i%n+1)+'، ردیف '+fa(Math.floor(i/n)+1);
- if(S.down&&S.g[i]!==S.cur){S.g[i]=S.cur;el.style.background=COLORS[S.cur][1];S.res='';var m=$('tm');if(m)m.textContent='';S.hover=S.l!=='a';update()}
+ if(S.down&&S.g[i]!==S.cur){S.g[i]=S.cur;el.style.background=bgc(S.cur);S.res='';var m=$('tm');if(m)m.textContent='';S.hover=S.l!=='a';update()}
 }
 $('grid').addEventListener('pointerdown',function(e){S.down=true;paintAt(e)});
 $('grid').addEventListener('pointermove',paintAt);
@@ -303,7 +325,7 @@ function renderBin(){
  });
  var v=bval(),t=[];BV.forEach(function(b,i){if(b)t.push(Math.pow(2,BK-1-i))});
  $('bsum').textContent=BV.join('')+' = '+(t.length?t.join(' + ')+' = ':'')+v;
- $('bsw').innerHTML=BK===4?(v<COLORS.length?'در جدول رنگ‌های ما، این کد برای رنگ <b>'+COLORS[v][0]+'</b> است <i class="sw2" style="background:'+COLORS[v][1]+'"></i>':'برای این کد، رنگی در جدول ما نیست.'):'با ۸ خانه می‌توان تا ۲۵۵ ساخت؛ همان عددهای نور قرمز، سبز و آبی!';
+ $('bsw').innerHTML=BK===4?(isCol(v)?'در جدول رنگ‌های ما، این کد برای رنگ <b>'+COLORS[v][0]+'</b> است <i class="sw2" style="background:'+bgc(v)+'"></i>':'برای این کد، رنگی در جدول ما نیست.'):'با ۸ خانه می‌توان تا ۲۵۵ ساخت؛ همان عددهای نور قرمز، سبز و آبی!';
  var c=$('bch');c.innerHTML='';
  if(BT===null){c.appendChild(btn('چالش: یک عدد بده','',function(){BT=Math.floor(Math.random()*Math.pow(2,BK));$('bmsg').textContent='';renderBin()}))}
  else{
@@ -312,6 +334,37 @@ function renderBin(){
  }
 }
 renderBin();
+function hexv(){return '#'+RV.map(function(v){return ('0'+v.toString(16)).slice(-2)}).join('')}
+function tcol(h){return (parseInt(h.substr(1,2),16)*299+parseInt(h.substr(3,2),16)*587+parseInt(h.substr(5,2),16)*114)/1000>140?'#14181F':'#fff'}
+function renderCU(){
+ var box=$('cusl');box.innerHTML='';
+ for(var i=0;i<5;i++){(function(i){
+  var b=document.createElement('button');b.className='sw';
+  if(CU[i]){b.style.background=COLORS[11+i][1];b.textContent='✕';b.style.color=tcol(COLORS[11+i][1]);b.setAttribute('aria-label','حذف رنگ من '+fa(i+1));b.onclick=function(){removeCU(i)}}
+  else{b.disabled=true;b.style.borderStyle='dashed';b.setAttribute('aria-label','جای خالی')}
+  box.appendChild(b);
+ })(i)}
+}
+function addCU(){
+ var m=$('cumsg'),h=hexv(),dup=null;
+ COLORS.forEach(function(c,i){if(!isCol(i)||dup)return;var d=0;for(var j=0;j<3;j++)d+=Math.abs(parseInt(c[1].substr(1+2*j,2),16)-RV[j]);if(d<=36)dup=c[0]});
+ if(dup){m.className='msg bad';m.textContent='این رنگ تقریباً همان رنگ «'+dup+'» است که در پالت هست.';return}
+ var i=CU.indexOf(0);
+ if(i<0){m.className='msg bad';m.textContent='پالت رنگ‌های تو پر است (۵ رنگ). اول یک رنگ را حذف کن.';return}
+ COLORS[11+i]=['رنگ من '+fa(i+1),hexv()];CU[i]=1;
+ m.className='msg ok';m.textContent='رنگ به پالت اضافه شد. کد آن '+bn(11+i)+' است.'+(S.bw?' برای استفاده در نقاشی، دکمه‌ی «رنگی» را بزن.':'');
+ if(!S.bw)S.cur=11+i;
+ renderPal();update();renderCU();
+}
+function removeCU(i){
+ var idx=11+i;CU[i]=0;
+ var cnt=0;for(var k=0;k<S.g.length;k++)if(S.g[k]===idx){S.g[k]=0;cnt++}
+ if(S.cur===idx)S.cur=2;
+ var m=$('cumsg');m.className='msg';m.textContent=cnt?fa(cnt)+' پیکسل سفید شد، چون رنگشان حذف شد.':'';
+ renderGrid();renderPal();update();renderCU();
+}
+$('cuadd').appendChild(btn('افزودن این رنگ به پالت من','on',addCU));
+renderCU();
 window.addEventListener('resize',applyZoom);
 setLevel('a');
 </script>
