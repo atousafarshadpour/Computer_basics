@@ -149,7 +149,7 @@ var S={l:'a',n:8,g:[],cur:2,z:0,bw:false,ch:false,cn:0,sub:1,sp:false,mi:0,down:
 var $=function(id){return document.getElementById(id)};
 var fa=function(x){return Number(x).toLocaleString('fa-IR')};
 function reset(n){S.n=n;S.g=[];for(var i=0;i<n*n;i++)S.g.push(0);S.res=''}
-function setLevel(l,sub){S.l=l;if(l==='a')S.sub=sub||1;S.mi=0;S.sp=false;S.z=0;S.ch=false;S.res='';reset(8);if(l==='a'){S.bw=false;S.cur=2}else{S.bw=true;S.cur=1}render()}
+function setLevel(l,sub){S.l=l;if(l==='a')S.sub=sub||1;S.mi=0;S.sp=false;S.z=0;S.ch=false;S.res='';reset(8);S.bw=false;S.cur=2;render()}
 function btn(txt,cls,fn){var b=document.createElement('button');b.textContent=txt;if(cls)b.className=cls;b.onclick=fn;return b}
 
 function render(){
@@ -167,7 +167,7 @@ function renderTask(){
   t.innerHTML='<b>ماموریت رمزگشایی:</b> هر ردیف کد یک ردیف از تصویر است. ۱ را سیاه و ۰ را سفید کن تا تصویر پنهان پیدا شود.<pre id="tc" style="direction:ltr;text-align:left;letter-spacing:.14em;margin:8px 0;font-family:ui-monospace,Menlo,monospace">'+TARGETS[S.cn].join('\n')+'</pre><div class="row" id="trow"></div><div class="msg '+(S.res==='ok'?'ok':'bad')+'" id="tm">'+(S.res==='ok'?'آفرین! تصویر درست رمزگشایی شد.':S.res==='no'?'هنوز چند پیکسل اشتباه است. دوباره با کد مقایسه کن.':'')+'</div>';
   $('trow').appendChild(btn('بررسی','on',checkCh));
   $('trow').appendChild(btn('چالش بعدی','',function(){S.cn=(S.cn+1)%TARGETS.length;reset(8);render()}));
-  $('trow').appendChild(btn('برگرد به نقاشی آزاد','',function(){S.ch=false;reset(8);render()}));
+  $('trow').appendChild(btn('برگرد به نقاشی آزاد','',function(){S.ch=false;S.bw=false;S.cur=2;reset(8);render()}));
  }else{
   t.innerHTML='<b>ماموریت:</b> یک تصویر بساز، بعد ببین کامپیوتر چگونه آن تصویر را به صورت اعداد صفر و یک ذخیره می‌کند. حالا چالش را امتحان کن!<div class="row" id="trow"></div>';
   $('trow').appendChild(btn('ماموریت رمزگشایی','',function(){S.ch=true;S.cn=0;S.bw=true;S.cur=1;reset(8);render()}));
